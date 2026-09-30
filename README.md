@@ -16,9 +16,9 @@ The script uses the already-active virtualenv and installs current package
 versions with `pip`. It asks whether the supported qubit count changed, then
 offers these model workflows: reuse the old data and old model, reuse the old
 data and retrain, or generate new data and retrain. It asks separately about QDES,
-state-vector fidelity, and benchmark tests, installing `quimb` only when it is
-needed. It never uninstalls packages; at the end it lists optional packages
-that can be removed manually.
+state-vector fidelity, and benchmark tests, installing `quimb` and `kahypar` only
+when they are needed. It never uninstalls packages; at the end it lists optional
+packages that can be removed manually.
 
 ## Manual installation
 

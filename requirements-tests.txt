@@ -1,2 +1,2 @@
 quimb>=1.8
-kahypar>=1.3.7
+kahypar==1.3.7

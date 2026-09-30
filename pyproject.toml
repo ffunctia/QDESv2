@@ -11,8 +11,8 @@ dependencies = ["numpy>=1.23"]
 
 [project.optional-dependencies]
 model = ["onnxruntime>=1.16"]
-train = ["torch>=2.0", "onnx>=1.16", "onnxruntime>=1.16", "quimb>=1.8"]
-test = ["pytest>=7", "quimb>=1.8"]
+train = ["torch>=2.0", "onnx>=1.16", "onnxruntime>=1.16", "quimb>=1.8", "kahypar==1.3.7"]
+test = ["pytest>=7", "quimb>=1.8", "kahypar==1.3.7"]
 dev = ["qdes[model,train,test]"]
 
 [tool.setuptools]
