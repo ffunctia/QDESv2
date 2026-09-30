@@ -67,8 +67,8 @@ else
 fi
 
 if [[ "$run_training" == true ]]; then
-    install_packages torch onnx
-    OPTIONAL_PACKAGES+=(torch onnx)
+    "$PYTHON_BIN" -m pip install --upgrade --editable ".[train]"
+    OPTIONAL_PACKAGES+=(torch onnx quimb)
     QDES_MODEL_PATH="$APP_ROOT/model_files/entanglement_model.onnx" \
         "$PYTHON_BIN" training/generate_dataset_and_train.py
 fi
