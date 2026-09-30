@@ -3,7 +3,7 @@ import time
 import pickle
 import resource
 from qdes.gates import make_gate
-from qdes.sv_simulator_gf import StateVectorQuantumSystem
+from qdes.sv_simulator import StateVectorQuantumSystem
 
 def main():
     pickle_file = sys.argv[1]

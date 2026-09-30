@@ -104,7 +104,8 @@ def run_on_sv_sim(ops, n_qubits):
             qs.apply(op_name, targets, *params)
         else:
             qs.measure(step[1])
-    return qs.state
+    sv, _ = qs.full_state()
+    return sv
 #+
 def project_qubit(sv_flat, n, qubit, outcome):
     sv_copy = sv_flat.copy()

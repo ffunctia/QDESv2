@@ -10,7 +10,7 @@ from qdes.utils_pyside import generate_circuit
 from qdes.gates import compute_sp, compute_ep, make_gate
 
 #+
-def calculate_er(group_sizes, num_qubits):
+def calculate_bsi(group_sizes, num_qubits):
     return sum((size / num_qubits) ** 2 for size in group_sizes if size > 1)
 
 #+
@@ -68,21 +68,29 @@ def generate_single_test(test_no, n_qubits, output_dir):
     n_measure = sum(step[0] == "MEASURE" for step in execution_plan)
 
     qs_dummy = QuantumSystem(n_qubits)
-    er_history = []
-    bm_er_history = []
+    bsi_history = []
+    bm_bsi_history = []
 
     for step in execution_plan:
         if step[0] == "MEASURE":
-            bm_er_history.append(calculate_er(qs_dummy.custom_group_sizes(), n_qubits))
+            bm_bsi_history.append(
+                calculate_bsi(qs_dummy.custom_group_sizes(), n_qubits)
+            )
             qs_dummy.measure(step[1])
-            er_history.append(calculate_er(qs_dummy.custom_group_sizes(), n_qubits))
+            bsi_history.append(
+                calculate_bsi(qs_dummy.custom_group_sizes(), n_qubits)
+            )
         elif step[0] == "GATE":
             qs_dummy.apply(step[1], step[3], *step[2])
-            er_history.append(calculate_er(qs_dummy.custom_group_sizes(), n_qubits))
+            bsi_history.append(
+                calculate_bsi(qs_dummy.custom_group_sizes(), n_qubits)
+            )
 
-    max_er = max(er_history) if er_history else 0.0
-    avg_er = sum(er_history) / len(er_history) if er_history else 0.0
-    avg_bm_er = sum(bm_er_history) / len(bm_er_history) if bm_er_history else 0.0
+    max_bsi = max(bsi_history) if bsi_history else 0.0
+    avg_bsi = sum(bsi_history) / len(bsi_history) if bsi_history else 0.0
+    avg_bm_bsi = (
+        sum(bm_bsi_history) / len(bm_bsi_history) if bm_bsi_history else 0.0
+    )
 
     del qs_dummy
 
@@ -98,7 +106,7 @@ def generate_single_test(test_no, n_qubits, output_dir):
         pickle.dump(execution_plan, f)
 
     print(
-        f"{test_no},{n_qubits},{n_gates},{max_er:.6f},{avg_er:.6f},{avg_bm_er:.6f},"
+        f"{test_no},{n_qubits},{n_gates},{max_bsi:.6f},{avg_bsi:.6f},{avg_bm_bsi:.6f},"
         f"{metrics['avg_gate_distance']:.6f},{metrics['n_multi_gates']},"
         f"{metrics['max_depth']},{metrics['n_measurements']}"
     )

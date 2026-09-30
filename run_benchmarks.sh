@@ -15,7 +15,7 @@ mkdir -p "$TMP_DIR"
 PYTHON_BIN="${PYTHON_BIN:-${PYTHON:-python3}}"
 export QDES_MODEL_PATH="${QDES_MODEL_PATH:-${APP_ROOT}/model_files/entanglement_model.onnx}"
 
-echo "Test_no,n_qubits,n_gates,Max_er,average_ER,average_bm_ER,avg_gate_distance,n_multi_gates,max_depth,n_measurements" > "$TMP_DIR/temp_circuits.csv"
+echo "Test_no,n_qubits,n_gates,Max_BSI,average_BSI,average_bm_BSI,avg_gate_distance,n_multi_gates,max_depth,n_measurements" > "$TMP_DIR/temp_circuits.csv"
 echo "QDES_speed_s,QDES_memory_MB" > "$TMP_DIR/temp_qdes.csv"
 echo "SV_speed_s,SV_memory_MB" > "$TMP_DIR/temp_sv.csv"
 echo "Quimb_speed_s,Quimb_memory_MB" > "$TMP_DIR/temp_quimb.csv"

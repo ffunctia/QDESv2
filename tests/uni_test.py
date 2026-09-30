@@ -47,7 +47,7 @@ def run_interleaved_sim(actions, n_qubits):
             r = qs.measure(q)
             outcomes[q] = r
             
-            sv_ref = qs_ref.state
+            sv_ref, _ = qs_ref.full_state()
             sv_ref = project_qubit(sv_ref, n_qubits, q, r)
             norm = np.linalg.norm(sv_ref)
             
@@ -57,7 +57,8 @@ def run_interleaved_sim(actions, n_qubits):
             sv_ref = sv_ref / norm
             qs_ref.state = sv_ref
             
-    return qs, qs_ref.state, outcomes, True
+    sv_ref, _ = qs_ref.full_state()
+    return qs, sv_ref, outcomes, True
 
 #+
 def run_test(n_tests, n_qubits=MAX_QUBITS // 2, n_gates_range=None, seed=None,
@@ -65,6 +66,9 @@ def run_test(n_tests, n_qubits=MAX_QUBITS // 2, n_gates_range=None, seed=None,
 
     if n_qubits < 2:
         raise ValueError("n_qubits must be at least 2.")
+    if seed is not None:
+        random.seed(seed)
+        np.random.seed(seed)
 
     score_fidelity = 0
     score_groups = 0
@@ -133,7 +137,7 @@ def run_test(n_tests, n_qubits=MAX_QUBITS // 2, n_gates_range=None, seed=None,
     return score_both, ran, fails
 
 if __name__ == "__main__":
-    n = int(sys.argv[1]) if len(sys.argv) > 1 else 300
+    n = int(sys.argv[1]) if len(sys.argv) > 1 else 1000
     seed = int(sys.argv[2]) if len(sys.argv) > 2 else DEFAULT_TEST_SEED
     n_qubits = int(sys.argv[3]) if len(sys.argv) > 3 else MAX_QUBITS // 2
 
